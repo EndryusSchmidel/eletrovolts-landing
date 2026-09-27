@@ -1,1 +1,5 @@
 .claude/
+
+# Originais do logo: a página usa só as versões otimizadas
+assets/logo/*
+!assets/logo/eletro-logo-mark.png

@@ -4,14 +4,31 @@
   var menu = document.getElementById('mobile-menu');
   var waFloat = document.querySelector('.wa-float');
 
-  // Header border + floating WhatsApp after leaving the hero
+  // Header border on scroll
   function onScroll() {
-    var y = window.scrollY;
-    header.classList.toggle('is-scrolled', y > 8);
-    waFloat.classList.toggle('is-visible', y > window.innerHeight * 0.6);
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  // Floating WhatsApp: visible from the first section + an occasional "electric shock"
+  setTimeout(function () { waFloat.classList.add('is-visible'); }, 300);
+
+  var reduceMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+  if (!reduceMotion.matches) {
+    waFloat.addEventListener('animationend', function (e) {
+      if (e.animationName === 'wa-zap') waFloat.classList.remove('is-zap');
+    });
+    var zap = function () {
+      if (!document.hidden && !reduceMotion.matches && !waFloat.matches(':hover')) {
+        waFloat.classList.remove('is-zap');
+        void waFloat.offsetWidth; // restart the animation
+        waFloat.classList.add('is-zap');
+      }
+      setTimeout(zap, 5000);
+    };
+    setTimeout(zap, 2500);
+  }
 
   // Mobile menu
   function setMenu(open) {
@@ -49,6 +66,16 @@
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
     items.forEach(function (el) { io.observe(el); });
+  }
+
+  // Brand bar: duplicate the list so the infinite carousel loops seamlessly
+  var brandTrack = document.querySelector('.brands__track');
+  if (brandTrack) {
+    var brandClone = brandTrack.firstElementChild.cloneNode(true);
+    brandClone.setAttribute('aria-hidden', 'true');
+    brandClone.querySelectorAll('img').forEach(function (img) { img.alt = ''; });
+    brandTrack.appendChild(brandClone);
+    brandTrack.parentElement.classList.add('is-looping');
   }
 
   var year = document.getElementById('year');

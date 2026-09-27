@@ -132,6 +132,21 @@ em {
 .btn--sm { padding: 10px 20px; font-size: 14px; }
 .btn--lg { padding: 18px 34px; font-size: 16px; }
 
+/* Borda elétrica (teste — o arco é desenhado por js/electric-border.js) */
+.btn--electric { position: relative; isolation: isolate; }
+.btn--electric::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 2px solid var(--copper-soft);
+  filter: blur(4px);
+  opacity: .7;
+  z-index: -1;
+  pointer-events: none;
+}
+.btn--electric .eb-canvas { position: absolute; z-index: 2; pointer-events: none; }
+
 .icon {
   width: 18px;
   height: 18px;
@@ -141,6 +156,7 @@ em {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+.icon--fill { fill: currentColor; stroke: none; }
 
 /* ---------- Logo ---------- */
 .logo {
@@ -149,8 +165,7 @@ em {
   gap: 10px;
   color: var(--ink);
 }
-.logo__mark { width: 30px; height: 30px; color: var(--copper); }
-.logo__mark svg { width: 100%; height: 100%; }
+.logo__mark { flex: none; width: 36px; height: 36px; border-radius: 50%; }
 .logo__text {
   font-weight: 500;
   font-size: 21px;
@@ -376,18 +391,18 @@ em {
 .checks { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 14px; }
 .checks li {
   position: relative;
-  padding-left: 32px;
+  padding-left: 34px;
   font-size: 15px;
   color: var(--ink);
 }
 .checks li::before {
   content: "";
   position: absolute;
-  left: 0; top: 4px;
-  width: 18px; height: 18px;
+  left: 0; top: 2px;
+  width: 20px; height: 20px;
   border-radius: 50%;
   border: 1px solid var(--copper);
-  background: radial-gradient(circle, var(--copper) 0 3px, transparent 3.5px);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M13 2 4 14h7l-1 8 9-12h-7l1-8Z' fill='%23C8702B'/%3E%3C/svg%3E") center / 12px no-repeat;
 }
 
 /* ---------- Products ---------- */
@@ -436,6 +451,40 @@ em {
   color: var(--copper-soft);
 }
 .card__link:hover { color: #fff; }
+
+/* ---------- Brands (logo bar) ---------- */
+.brands {
+  padding: 64px 0 72px;
+  border-top: 1px solid var(--line);
+  overflow: hidden;
+}
+.brands__title { display: flex; justify-content: center; margin: 0 0 36px; }
+.brands__title::after { content: ""; width: 28px; height: 1px; background: var(--copper); }
+
+.brands__viewport { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+.brands__track { display: flex; }
+.brands__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 0 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.brands__list[aria-hidden="true"] { display: none; } /* cópia usada só pelo carrossel */
+.brand { flex: none; height: 64px; display: grid; place-items: center; }
+.brand img {
+  display: block;
+  width: auto;
+  height: var(--h, 28px);
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: .55;
+  transition: filter .45s var(--ease), opacity .45s var(--ease);
+}
+.brand:hover img { filter: none; opacity: 1; }
 
 /* ---------- Values (dark) ---------- */
 .values { background: var(--noir); color: var(--on-dark); position: relative; overflow: hidden; }
@@ -650,7 +699,7 @@ em {
   flex-wrap: wrap;
 }
 .footer .logo__text { font-size: 18px; }
-.footer .logo__mark { width: 26px; height: 26px; }
+.footer .logo__mark { width: 30px; height: 30px; }
 
 /* ---------- Floating WhatsApp ---------- */
 .wa-float {
@@ -666,14 +715,59 @@ em {
   display: grid;
   place-items: center;
   box-shadow: 0 16px 30px -12px rgba(22, 21, 15, .55);
-  transition: transform .35s var(--ease), background .35s var(--ease), opacity .35s var(--ease);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(12px);
+  transition: transform .5s var(--ease), background .35s var(--ease), color .35s var(--ease), opacity .5s var(--ease);
 }
-.wa-float.is-visible { opacity: 1; pointer-events: auto; transform: none; }
+/* Entrada suave logo após o carregamento (visível desde o hero) */
+.js .wa-float:not(.is-visible) { opacity: 0; pointer-events: none; transform: translateY(12px) scale(.9); }
 .wa-float:hover { background: var(--copper); color: #fff; }
 .wa-float svg { width: 30px; height: 30px; fill: currentColor; }
+
+/* "Choque" ocasional: tremida + anel de descarga + faíscas (.is-zap via JS) */
+.wa-float::before,
+.wa-float::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+}
+.wa-float::before {
+  inset: -1px;
+  border-radius: 50%;
+  border: 2px solid var(--copper-soft);
+}
+.wa-float::after {
+  inset: -15px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M13 2 4 14h7l-1 8 9-12h-7l1-8Z' fill='%23C8702B'/%3E%3C/svg%3E") right 1px top 0 / 18px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M13 2 4 14h7l-1 8 9-12h-7l1-8Z' fill='%23C8702B'/%3E%3C/svg%3E") left 2px bottom 6px / 12px no-repeat;
+}
+.wa-float.is-zap { animation: wa-zap .7s linear; }
+.wa-float.is-zap::before { animation: wa-ring .7s var(--ease); }
+.wa-float.is-zap::after { animation: wa-spark .7s linear; }
+
+@keyframes wa-zap {
+  0%, 72%, 100% { transform: none; }
+  8%  { transform: translate(-3px, 1px) rotate(-12deg); color: #fff; box-shadow: 0 16px 30px -12px rgba(22, 21, 15, .55), 0 0 26px 4px rgba(200, 112, 43, .65); }
+  16% { transform: translate(3px, -2px) rotate(11deg); color: var(--copper-soft); }
+  24% { transform: translate(-3px, -1px) rotate(-9deg); color: #fff; }
+  32% { transform: translate(3px, 1px) rotate(7deg); color: var(--copper-soft); }
+  40% { transform: translate(-2px, 1px) rotate(-5deg); color: #fff; }
+  48% { transform: translate(2px, -1px) rotate(3deg); }
+  56% { transform: translate(-1px, 0) rotate(-2deg); }
+  64% { transform: translate(1px, 0) rotate(1deg); }
+}
+@keyframes wa-ring {
+  0%   { opacity: .9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.7); }
+}
+@keyframes wa-spark {
+  0%   { opacity: 1; transform: scale(.7) rotate(-8deg); }
+  10%  { opacity: 0; }
+  20%  { opacity: 1; transform: scale(1.1) rotate(6deg); }
+  32%  { opacity: .15; }
+  44%  { opacity: 1; transform: none; }
+  70%, 100% { opacity: 0; transform: none; }
+}
 
 /* ---------- Reveal ---------- */
 .js .reveal {
@@ -686,7 +780,8 @@ em {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
-  .card, .btn, .mobile-menu, .mobile-menu__inner > * { transition: none; }
+  .card, .btn, .mobile-menu, .mobile-menu__inner > *, .wa-float { transition: none; }
+  .wa-float.is-zap, .wa-float.is-zap::before, .wa-float.is-zap::after { animation: none; }
 }
 
 /* =========================================================
@@ -696,6 +791,27 @@ em {
   .cards { grid-template-columns: repeat(2, 1fr); }
   .hero__grid, .about__grid, .steps__grid, .visit__grid { gap: 48px; }
 }
+
+/* Marcas sem carrossel (sem JS / movimento reduzido): abaixo de 1200px
+   os 10 logos não cabem numa linha, então quebram em linhas */
+@media (max-width: 1200px) {
+  .brands__list { flex-wrap: wrap; justify-content: center; gap: 8px 44px; }
+}
+
+/* Marcas: carrossel infinito em qualquer tela (a lista é duplicada pelo JS).
+   A janela fica limitada à largura do container, sempre menor que uma volta da lista */
+@media (prefers-reduced-motion: no-preference) {
+  .brands__viewport.is-looping {
+    padding: 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .is-looping .brands__track { width: max-content; animation: brands-marquee 50s linear infinite; }
+  .is-looping .brands__list { flex: none; flex-wrap: nowrap; justify-content: flex-start; gap: 60px; padding-right: 60px; }
+  .is-looping .brands__list[aria-hidden="true"] { display: flex; }
+  .is-looping:hover .brands__track { animation-play-state: paused; }
+}
+@keyframes brands-marquee { to { transform: translateX(-50%); } }
 
 @media (max-width: 900px) {
   .nav, .header__cta { display: none; }
@@ -749,4 +865,8 @@ em {
   .steps__list li { padding: 22px; gap: 18px; }
   .quote blockquote { font-size: 22px; }
   .footer__inner { flex-direction: column; align-items: flex-start; }
+  .brands { padding: 48px 0 56px; }
+  .brands__title { margin-bottom: 24px; }
+  .brand { height: 56px; }
+  .brand img { height: calc(var(--h, 28px) * .85); }
 }
