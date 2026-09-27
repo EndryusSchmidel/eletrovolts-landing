@@ -14,10 +14,11 @@
     coreColor: '#FFE8CF', // núcleo "incandescente" do arco
     speed: 1,
     chaos: 0.05,          // intensidade da distorção (0 = borda lisa)
-    waveLength: 160,      // px de contorno por ciclo base do ruído (maior = arco mais "esticado")
+    waveLength: 520,      // px de contorno por ciclo base do ruído (maior = arco mais fluido)
+    fps: 30,              // quadros por segundo (leve no celular)
     offset: 30            // folga (px) do canvas em volta do botão
   };
-  var OCTAVES = 10, LACUNARITY = 1.6, GAIN = 0.7, FREQUENCY = 10, DISPLACEMENT = 60;
+  var OCTAVES = 6, LACUNARITY = 1.6, GAIN = 0.7, FREQUENCY = 10, DISPLACEMENT = 60;
 
   var elements = document.querySelectorAll('.btn--electric');
   if (!elements.length) return;
@@ -98,13 +99,15 @@
     }
 
     function draw(now) {
+      raf = requestAnimationFrame(draw);
+      if (now - last < 1000 / CONFIG.fps - 2) return; // limita a ~30 fps
       time += Math.min((now - last) / 1000, 0.1) * CONFIG.speed;
       last = now;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width + CONFIG.offset * 2, height + CONFIG.offset * 2);
 
       var perimeter = 2 * (width + height) + 2 * Math.PI * radius;
-      var samples = Math.max(Math.floor(perimeter / 2), 8);
+      var samples = Math.max(Math.floor(perimeter / 3), 8);
       var path = new Path2D();
       var firstX = 0, firstY = 0;
       for (var i = 0; i <= samples; i++) {
@@ -126,21 +129,19 @@
 
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      // halo laranja
-      ctx.globalAlpha = 0.6;
+      // halo laranja em duas passadas (sem shadowBlur, que pesa no celular)
       ctx.strokeStyle = CONFIG.color;
-      ctx.shadowColor = CONFIG.color;
-      ctx.shadowBlur = 8;
+      ctx.globalAlpha = 0.18;
+      ctx.lineWidth = 7;
+      ctx.stroke(path);
+      ctx.globalAlpha = 0.55;
       ctx.lineWidth = 3;
       ctx.stroke(path);
       // núcleo claro
       ctx.globalAlpha = 1;
-      ctx.shadowBlur = 0;
       ctx.strokeStyle = CONFIG.coreColor;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.2;
       ctx.stroke(path);
-
-      raf = requestAnimationFrame(draw);
     }
 
     function start() {
