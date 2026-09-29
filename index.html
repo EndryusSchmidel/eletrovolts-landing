@@ -54,10 +54,10 @@
   }
   </script>
 </head>
-<body>
+<body id="topo">
 
   <!-- ============ HEADER ============ -->
-  <header class="header" id="topo">
+  <header class="header">
     <div class="container header__inner">
       <a href="#topo" class="logo" aria-label="Eletrovolts — início">
         <img class="logo__mark" src="assets/logo/eletro-logo-mark.png" alt="" width="128" height="128" />
@@ -72,8 +72,9 @@
         <a href="#visite">Visite</a>
       </nav>
 
-      <a class="btn btn--sm btn--dark header__cta" href="https://wa.me/5527999954606?text=Ol%C3%A1%21%20Gostaria%20de%20fazer%20um%20or%C3%A7amento." target="_blank" rel="noopener">
-        Orçamento
+      <a class="btn btn--sm btn--dark header__cta" href="https://www.instagram.com/eletrovoltsvv/" target="_blank" rel="noopener" aria-label="Instagram @eletrovoltsvv">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+        Instagram
       </a>
 
       <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
@@ -149,6 +150,29 @@
         <div class="fact reveal">
           <span class="fact__num">Entrega</span>
           <span class="fact__label">Na obra ou retirada na loja</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MARCAS ============ -->
+    <section class="brands" aria-labelledby="brands-title">
+      <div class="container">
+        <p class="eyebrow brands__title reveal" id="brands-title">Marcas que trabalhamos</p>
+      </div>
+      <div class="brands__viewport reveal">
+        <div class="brands__track">
+          <ul class="brands__list" role="list">
+            <li class="brand"><img src="assets/brands/weg.svg" alt="WEG" width="46" height="32" style="--h: 32px" /></li>
+            <li class="brand"><img src="assets/brands/schneider.svg" alt="Schneider Electric" width="91" height="28" style="--h: 28px" /></li>
+            <li class="brand"><img src="assets/brands/tramontina.svg" alt="Tramontina" width="114" height="19" style="--h: 19px" /></li>
+            <li class="brand"><img src="assets/brands/sil.png" alt="SIL Fios e Cabos" width="73" height="27" style="--h: 27px" /></li>
+            <li class="brand"><img src="assets/brands/tigre.svg" alt="Tigre" width="85" height="26" style="--h: 26px" /></li>
+            <li class="brand"><img src="assets/brands/legrand.svg" alt="Legrand" width="87" height="23" style="--h: 23px" /></li>
+            <li class="brand"><img src="assets/brands/cobrecom.svg" alt="Cobrecom" width="97" height="20" style="--h: 20px" /></li>
+            <li class="brand"><img src="assets/brands/philips.svg" alt="Philips" width="100" height="20" style="--h: 20px" /></li>
+            <li class="brand"><img src="assets/brands/steck.png" alt="Steck" width="106" height="18" style="--h: 18px" /></li>
+            <li class="brand"><img src="assets/brands/lorenzetti.svg" alt="Lorenzetti" width="114" height="18" style="--h: 18px" /></li>
+          </ul>
         </div>
       </div>
     </section>
@@ -229,29 +253,6 @@
             <p>Envie sua lista — a gente localiza e separa para você.</p>
             <a class="card__link" href="https://wa.me/5527999954606?text=Ol%C3%A1%21%20Estou%20procurando%20um%20produto." target="_blank" rel="noopener">Consultar no WhatsApp →</a>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ MARCAS ============ -->
-    <section class="brands" aria-labelledby="brands-title">
-      <div class="container">
-        <p class="eyebrow brands__title reveal" id="brands-title">Marcas que trabalhamos</p>
-      </div>
-      <div class="brands__viewport reveal">
-        <div class="brands__track">
-          <ul class="brands__list" role="list">
-            <li class="brand"><img src="assets/brands/weg.svg" alt="WEG" width="46" height="32" style="--h: 32px" /></li>
-            <li class="brand"><img src="assets/brands/schneider.svg" alt="Schneider Electric" width="91" height="28" style="--h: 28px" /></li>
-            <li class="brand"><img src="assets/brands/tramontina.svg" alt="Tramontina" width="114" height="19" style="--h: 19px" /></li>
-            <li class="brand"><img src="assets/brands/sil.png" alt="SIL Fios e Cabos" width="73" height="27" style="--h: 27px" /></li>
-            <li class="brand"><img src="assets/brands/tigre.svg" alt="Tigre" width="85" height="26" style="--h: 26px" /></li>
-            <li class="brand"><img src="assets/brands/legrand.svg" alt="Legrand" width="87" height="23" style="--h: 23px" /></li>
-            <li class="brand"><img src="assets/brands/cobrecom.svg" alt="Cobrecom" width="97" height="20" style="--h: 20px" /></li>
-            <li class="brand"><img src="assets/brands/philips.svg" alt="Philips" width="100" height="20" style="--h: 20px" /></li>
-            <li class="brand"><img src="assets/brands/steck.png" alt="Steck" width="106" height="18" style="--h: 18px" /></li>
-            <li class="brand"><img src="assets/brands/lorenzetti.svg" alt="Lorenzetti" width="114" height="18" style="--h: 18px" /></li>
-          </ul>
         </div>
       </div>
     </section>
@@ -380,8 +381,11 @@
             </div>
             <div>
               <dt>Horário</dt>
-              <!-- TODO: confirmar horários com a loja (Google informa fechamento às 17h30) -->
-              <dd>Segunda a sexta · 8h às 17h30<br />Sábado · 8h às 12h</dd>
+              <!-- Horários conferidos. Se mudarem, atualize também HOURS em js/main.js -->
+              <dd>
+                <span class="open-status" id="open-status" hidden></span>
+                <span class="details__hours">Segunda a sexta · 8h às 17h30<br />Sábado · 8h às 12h</span>
+              </dd>
             </div>
           </dl>
 
@@ -407,6 +411,49 @@
       </div>
     </section>
 
+    <!-- ============ DÚVIDAS ============ -->
+    <!-- TODO: respostas genéricas — trocar pelas respostas da loja (entrega, pagamento, CNPJ) -->
+    <section class="section faq" id="duvidas">
+      <div class="container faq__grid">
+        <div class="faq__head">
+          <p class="eyebrow reveal">Dúvidas</p>
+          <h2 class="section__title reveal">Perguntas <em>frequentes.</em></h2>
+          <p class="section__lead reveal">Não encontrou o que procurava? A equipe responde rapidinho pelo WhatsApp.</p>
+          <a class="btn btn--ghost reveal" href="https://wa.me/5527999954606?text=Ol%C3%A1%21%20Tenho%20uma%20d%C3%BAvida." target="_blank" rel="noopener">
+            <svg class="icon icon--fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            Perguntar no WhatsApp
+          </a>
+        </div>
+
+        <div class="faq__list reveal">
+          <details class="faq__item">
+            <summary>Vocês fazem entrega?</summary>
+            <div class="faq__answer"><p>Sim. Entregamos em Vila Velha e região. Informe o endereço pelo WhatsApp e confirmamos prazo e condições para o seu pedido.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Quais são as formas de pagamento?</summary>
+            <div class="faq__answer"><p>Trabalhamos com as principais formas de pagamento. Confirme as condições para o seu pedido direto com a equipe, na loja ou pelo WhatsApp.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Vocês fazem orçamento para a obra inteira?</summary>
+            <div class="faq__answer"><p>Sim. Envie a lista de materiais por foto, áudio ou texto e a equipe monta o orçamento completo, conferindo item por item.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Atendem empresas e profissionais?</summary>
+            <div class="faq__answer"><p>Sim. Atendemos eletricistas, encanadores, construtoras e empresas, além de quem está reformando a própria casa. Fale com a equipe para mais informações.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>A loja tem estacionamento?</summary>
+            <div class="faq__answer"><p>Sim, temos estacionamento próprio para clientes. Estamos na Rod. do Sol, 510, em frente à Politintas, ao lado da Honda.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Não encontrei o produto que preciso. E agora?</summary>
+            <div class="faq__answer"><p>Mande o nome, a foto ou o código do produto pelo WhatsApp. A equipe verifica a disponibilidade e sugere alternativas equivalentes.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ CTA FINAL ============ -->
     <section class="closing">
       <div class="container closing__inner">
@@ -424,7 +471,10 @@
         <span class="logo__text">eletro<b>volts</b></span>
       </a>
       <p class="footer__meta">Materiais elétricos, hidráulicos &amp; iluminação · Vila Velha – ES</p>
-      <p class="footer__copy">© <span id="year">2026</span> Eletrovolts VV</p>
+      <div class="footer__copy">
+        <p>© <span id="year">2026</span> Eletrovolts VV</p>
+        <a class="footer__credit" href="https://verbinden.com.br" target="_blank" rel="noopener">Site por <b>Verbinden</b></a>
+      </div>
     </div>
   </footer>
 

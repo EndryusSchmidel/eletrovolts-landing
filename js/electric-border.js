@@ -12,8 +12,8 @@
   var CONFIG = {
     color: '#C8702B',     // halo do arco (laranja --copper do site)
     coreColor: '#FFE8CF', // núcleo "incandescente" do arco
-    speed: 1,
-    chaos: 0.05,          // intensidade da distorção (0 = borda lisa)
+    speed: 0.7,           // mais lento = mais suave
+    chaos: 0.03,          // intensidade da distorção (0 = borda lisa)
     waveLength: 520,      // px de contorno por ciclo base do ruído (maior = arco mais fluido)
     fps: 30,              // quadros por segundo (leve no celular)
     offset: 30            // folga (px) do canvas em volta do botão

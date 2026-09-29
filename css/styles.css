@@ -34,7 +34,13 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
 
 body {
   margin: 0;
@@ -140,12 +146,20 @@ em {
   inset: -1px;
   border-radius: inherit;
   border: 2px solid var(--copper-soft);
-  filter: blur(4px);
-  opacity: .7;
+  filter: blur(5px);
+  opacity: .45;
   z-index: -1;
   pointer-events: none;
 }
-.btn--electric .eb-canvas { position: absolute; z-index: 2; pointer-events: none; }
+.btn--electric .eb-canvas {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .35;
+  transition: opacity .5s var(--ease);
+}
+.btn--electric:hover .eb-canvas,
+.btn--electric:focus-visible .eb-canvas { opacity: 1; }
 
 .icon {
   width: 18px;
@@ -215,6 +229,9 @@ em {
 }
 .nav a:hover { color: var(--ink); }
 .nav a:hover::after { transform: scaleX(1); }
+.nav a.is-active { color: var(--ink); }
+.nav a.is-active::after { transform: scaleX(1); }
+.mobile-menu__inner a.is-active:not(.btn) { color: var(--copper); }
 
 .menu-toggle {
   display: none;
@@ -432,10 +449,12 @@ em {
   gap: 10px;
   transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease);
 }
-.card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(200, 112, 43, .35);
-  box-shadow: 0 30px 50px -30px rgba(22, 21, 15, .25);
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(200, 112, 43, .35);
+    box-shadow: 0 30px 50px -30px rgba(22, 21, 15, .25);
+  }
 }
 .card__icon {
   width: 34px; height: 34px;
@@ -464,7 +483,7 @@ em {
 /* ---------- Brands (logo bar) ---------- */
 .brands {
   padding: 64px 0 72px;
-  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   overflow: hidden;
 }
 .brands__title { display: flex; justify-content: center; margin: 0 0 36px; }
@@ -698,6 +717,90 @@ em {
   .visit__map:hover iframe { filter: none; }
 }
 
+/* ---------- Aberto agora / Fechado ---------- */
+.open-status {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 4px 12px 4px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  background: rgba(22, 21, 15, .05);
+  color: var(--ink-soft);
+}
+.open-status[hidden] { display: none; }
+.details__hours { display: block; }
+.open-status::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.open-status.is-open { background: rgba(200, 112, 43, .1); color: var(--copper-deep); }
+.open-status.is-open::before {
+  background: var(--copper);
+  box-shadow: 0 0 0 0 rgba(200, 112, 43, .5);
+  animation: open-pulse 2.4s var(--ease) infinite;
+}
+@keyframes open-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(200, 112, 43, .45); }
+  70%, 100% { box-shadow: 0 0 0 7px rgba(200, 112, 43, 0); }
+}
+
+/* ---------- FAQ ---------- */
+.faq { background: var(--ivory); }
+.faq__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 80px;
+  align-items: start;
+}
+.faq__head .btn { margin-top: 32px; }
+.faq__list { border-top: 1px solid var(--line); }
+.faq__item { border-bottom: 1px solid var(--line); }
+.faq__item summary {
+  list-style: none;
+  cursor: pointer;
+  display: block;
+  position: relative;
+  padding: 24px 54px 24px 0;
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1.25;
+  transition: color .3s var(--ease);
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary:hover { color: var(--copper-deep); }
+.faq__item summary:focus-visible { outline: 2px solid var(--copper); outline-offset: 4px; border-radius: 4px; }
+.faq__item summary::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -15px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(200, 112, 43, .4);
+  background:
+    linear-gradient(var(--copper), var(--copper)) center / 11px 1.5px no-repeat,
+    linear-gradient(var(--copper), var(--copper)) center / 1.5px 11px no-repeat;
+  transition: transform .4s var(--ease), background-size .4s var(--ease);
+}
+.faq__item[open] summary::after {
+  transform: rotate(180deg);
+  background-size: 11px 1.5px, 1.5px 0;
+}
+.faq__answer { padding: 0 54px 26px 0; color: var(--ink-soft); font-size: 15.5px; }
+.faq__item[open] .faq__answer { animation: faq-in .45s var(--ease); }
+@keyframes faq-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* ---------- Closing ---------- */
 .closing {
   background: var(--noir);
@@ -731,6 +834,11 @@ em {
 }
 .footer .logo__text { font-size: 18px; }
 .footer .logo__mark { width: 30px; height: 30px; }
+.footer__copy { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.footer__copy p { margin: 0; }
+.footer__credit { font-size: 12px; color: var(--on-dark-muted); opacity: .7; transition: opacity .3s, color .3s; }
+.footer__credit:hover { opacity: 1; color: var(--copper-soft); }
+.footer__credit b { font-weight: 600; letter-spacing: .02em; }
 
 /* ---------- Floating WhatsApp ---------- */
 .wa-float {
@@ -811,6 +919,7 @@ em {
 .js .reveal.is-in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
+  .open-status.is-open::before, .faq__item[open] .faq__answer { animation: none; }
   html { scroll-behavior: auto; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
   .card, .btn, .mobile-menu, .mobile-menu__inner > *, .wa-float { transition: none; }
@@ -881,6 +990,7 @@ em {
   .value__index { margin-bottom: 16px; }
 
   .reviews__head { flex-direction: column; align-items: flex-start; }
+  .faq__grid { grid-template-columns: 1fr; gap: 40px; }
   .quotes { grid-template-columns: 1fr; }
 
   .visit__map, .visit__map iframe { min-height: 340px; }
@@ -907,9 +1017,19 @@ em {
   .details > div { grid-template-columns: 1fr; gap: 4px; }
   .steps__list li { padding: 22px; gap: 18px; }
   .quote blockquote { font-size: 22px; }
+  .faq__item summary { font-size: 21px; padding: 20px 48px 20px 0; }
+  .faq__answer { padding-right: 0; }
   .footer__inner { flex-direction: column; align-items: flex-start; }
+  .footer__copy { align-items: flex-start; }
   .brands { padding: 48px 0 56px; }
   .brands__title { margin-bottom: 24px; }
   .brand { height: 56px; }
   .brand img { height: calc(var(--h, 28px) * .85); }
+}
+
+/* Telas de toque (celular e tablet): áreas de toque maiores nos links pequenos */
+@media (hover: none) {
+  .details dd a { display: inline-block; padding: 7px 0; }
+  .card__link { padding-bottom: 8px; }
+  .footer__credit { padding: 10px 0; margin: -10px 0; }
 }
